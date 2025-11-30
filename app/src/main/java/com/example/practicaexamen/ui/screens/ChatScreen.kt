@@ -136,7 +136,6 @@ fun ChatScreen(currentUser: UserDTO, onLogout: () -> Unit) {
                 }
             }
 
-            // Mostrar error si existe
             if (errorMessage != null) {
                 Text(
                     text = errorMessage!!,
@@ -161,8 +160,6 @@ fun ChatScreen(currentUser: UserDTO, onLogout: () -> Unit) {
                 )
 
                 Spacer(modifier = Modifier.width(8.dp))
-
-                // Botón de enviar
                 IconButton(
                     onClick = {
                         if (messageText.isNotBlank()) {
@@ -179,7 +176,7 @@ fun ChatScreen(currentUser: UserDTO, onLogout: () -> Unit) {
                                     isSending = false
                                     if (response.isSuccessful) {
                                         messageText = ""
-                                        loadMessages() // Recargar mensajes después de enviar
+                                        loadMessages()
                                     } else {
                                         errorMessage = "Error al enviar mensaje"
                                     }
@@ -187,7 +184,7 @@ fun ChatScreen(currentUser: UserDTO, onLogout: () -> Unit) {
 
                                 override fun onFailure(call: Call<MessageDTO>, t: Throwable) {
                                     isSending = false
-                                    errorMessage = "Error de conexión: ${t.message}"
+                                    errorMessage = "Error de conexion: ${t.message}"
                                 }
                             })
                         }
