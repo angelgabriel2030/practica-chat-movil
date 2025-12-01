@@ -43,11 +43,11 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun ChatApp() {
-        var currentUser by remember { mutableStateOf<UserDTO?>(loadUser()) }
+        var currentUser by remember { mutableStateOf<UserDTO?>(CargarUser()) }
         if (currentUser == null) {
             LoginScreen(
                 onLoginSuccess = { user ->
-                    saveUser(user)
+                    GuardarUser(user)
                     currentUser = user
                 }
             )
@@ -61,11 +61,11 @@ class MainActivity : ComponentActivity() {
                                 call: Call<Map<String, String>>,
                                 response: Response<Map<String, String>>
                             ) {
-                                clearUser()
+                                LimpiarUser()
                                 currentUser = null
                             }
                             override fun onFailure(call: Call<Map<String, String>>, t: Throwable) {
-                                clearUser()
+                                LimpiarUser()
                                 currentUser = null
                             }
                         })
@@ -74,14 +74,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun saveUser(user: UserDTO) {
+    private fun GuardarUser(user: UserDTO) {
         val userJson = gson.toJson(user)
         sharedPreferences.edit()
             .putString("current_user", userJson)
             .apply()
     }
 
-    private fun loadUser(): UserDTO? {
+    private fun CargarUser(): UserDTO? {
         val userJson = sharedPreferences.getString("current_user", null)
         return if (userJson != null) {
             gson.fromJson(userJson, UserDTO::class.java)
@@ -90,7 +90,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun clearUser() {
+    private fun LimpiarUser() {
         sharedPreferences.edit()
             .remove("current_user")
             .apply()

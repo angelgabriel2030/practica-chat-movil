@@ -1,16 +1,8 @@
 package com.example.practicaexamen.data
 data class UserDTO(
     val id: Long,
-    val username: String,
-    val email: String?
-)
-
-data class MessageDTO(
-    val id: Long,
-    val user_id: Long,
-    val username: String,
-    val content: String,
-    val created_at: String
+    val name: String,
+    val email: String
 )
 
 data class LoginResponse(
@@ -20,11 +12,19 @@ data class LoginResponse(
 )
 
 data class LoginRequest(
-    val username: String,
+    val email: String,
     val password: String
 )
 
 data class MessageRequest(
     val user_id: Long,
     val content: String
+)
+
+data class MessageDTO(
+    val id: Long,
+    val user_id: Long,
+    val name: String,
+    val content: String,
+    val created_at: String
 )

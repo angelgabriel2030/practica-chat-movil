@@ -21,7 +21,7 @@ import retrofit2.Response
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(onLoginSuccess: (UserDTO) -> Unit) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -31,7 +31,7 @@ fun LoginScreen(onLoginSuccess: (UserDTO) -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Chat - Iniciar Sesión") },
+                title = { Text("Iniciar Sesion") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 )
@@ -53,9 +53,9 @@ fun LoginScreen(onLoginSuccess: (UserDTO) -> Unit) {
             )
 
             OutlinedTextField(
-                value = username,
-                onValueChange = { username = it },
-                label = { Text("Usuario") },
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Correo") },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !isLoading,
                 singleLine = true
@@ -86,11 +86,11 @@ fun LoginScreen(onLoginSuccess: (UserDTO) -> Unit) {
 
             Button(
                 onClick = {
-                    if (username.isNotBlank() && password.isNotBlank()) {
+                    if (email.isNotBlank() && password.isNotBlank()) {
                         isLoading = true
                         errorMessage = null
 
-                        val request = LoginRequest(username, password)
+                        val request = LoginRequest(email = email, password = password)
                         RetrofitClient.api.login(request).enqueue(object : Callback<LoginResponse> {
                             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                                 isLoading = false
@@ -107,11 +107,11 @@ fun LoginScreen(onLoginSuccess: (UserDTO) -> Unit) {
 
                             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                                 isLoading = false
-                                errorMessage = "Error de conexión: ${t.message}"
+                                errorMessage = "Error de conexion: ${t.message}"
                             }
                         })
                     } else {
-                        errorMessage = "Por favor completa todos los campos"
+                        errorMessage = "completa todos los campos"
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -123,7 +123,7 @@ fun LoginScreen(onLoginSuccess: (UserDTO) -> Unit) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 } else {
-                    Text("Iniciar Sesión")
+                    Text("Iniciar Sesion")
                 }
             }
         }
